@@ -92,7 +92,7 @@ def process_single_image(image_path, output_folder):
     combined_img = Image.alpha_composite(final_img, object_img)
 
     # Save the final combined image
-    combined_output_filename = f"combined_{os.path.basename(image_path)}.png"
+    combined_output_filename = f"{os.path.basename(image_path)}.png"
     combined_output_path = os.path.join(output_folder, combined_output_filename)
     combined_img.save(combined_output_path, format='PNG')
 
