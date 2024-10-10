@@ -43,16 +43,19 @@ def process_single_image(image_path, output_folder):
         img = f.read()
 
     # Get the mask where the object is located
-    result = remove(img)
+    result = remove(img,)
 
     # Convert binary data to PIL image
     img_with_alpha = Image.open(io.BytesIO(result))
 
-    # Extract the object (the part with alpha channel not transparent)
+    # در این قسمت ماسک را به باینری تبدیل می‌کنیم
     mask = img_with_alpha.split()[-1]  # Alpha channel as mask
+    threshold_value = 128  # تنظیم این مقدار برای ایجاد ماسک سخت‌تر یا نرم‌تر
+    binary_mask = mask.point(lambda p: p > threshold_value and 255)
 
-    # Save the object separately
-    object_img = Image.composite(img_with_alpha, Image.new('RGBA', img_with_alpha.size, (255, 255, 255, 0)), mask)
+    # ادامه کد شما برای استفاده از ماسک
+    object_img = Image.composite(img_with_alpha, Image.new('RGBA', img_with_alpha.size, (255, 255, 255, 0)),
+                                 binary_mask)
 
     # Invert the mask to remove the object from the original image
     inverted_mask = ImageChops.invert(mask)
